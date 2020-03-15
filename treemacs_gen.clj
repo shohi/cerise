@@ -26,10 +26,13 @@
   (str header "\n" (create-project-items dir ptn)))
 
 ;; main entry
-(let  [[ws dir ptn] *command-line-args*]
+(defn main
+  [input]
+  (let  [[ws dir ptn] input]
   (when (or (empty? ws) (empty? dir) (empty? ptn))
     (println "Usage: <workspace> <dir> <pattern>")
     (System/exit 1))
   (println (create-project-list ws dir ptn)))
+  (System/exit 0))
 
-(System/exit 0)
+(main *command-line-args*)
