@@ -1,4 +1,5 @@
 #!/usr/bin/env bb
+
 (defn time-main
   [cmds]
   (time
