@@ -1,2 +1,2 @@
 # cerise
-a colletion of babashka scripts
+a colletion of [babashka](https://github.com/borkdude/babashka) scripts
