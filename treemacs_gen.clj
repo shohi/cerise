@@ -30,10 +30,10 @@
 (defn main
   [input]
   (let  [[ws dir ptn] input]
-  (when (or (empty? ws) (empty? dir) (empty? ptn))
-    (println "Usage: <workspace> <dir> <pattern>")
-    (System/exit 1))
-  (println (create-project-list ws dir ptn)))
+    (when (or (empty? ws) (empty? dir) (empty? ptn))
+      (println "Usage: <workspace> <dir> <pattern>")
+      (System/exit 1))
+    (println (create-project-list ws dir ptn)))
   (System/exit 0))
 
 (main *command-line-args*)
