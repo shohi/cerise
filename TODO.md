@@ -18,3 +18,6 @@
 
 - [ ] fuzzy find file matches given pattern
   + support both dir and file
+  
+- [ ] download k8s logs
+  + support pod filter
