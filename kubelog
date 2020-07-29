@@ -1,0 +1,9 @@
+#!/usr/bin/env bb
+;; -*- mode: clojure; -*-
+
+;; procedure
+;; 1. kubectl get pods -o json
+;; 2. parse json to get pods name
+;; 3. for each pod, get all contains
+;; 4. kubectl logs [pod] -c [container] > [pod-container].log
+;;    - also support pod-name and container-name compaction
