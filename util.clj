@@ -1,5 +1,4 @@
 #!/usr/bin/env bb
-
 (use 'clojure.data)
 
 (def ignore-list ["baidunetdisk"])
