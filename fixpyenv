@@ -1,0 +1,8 @@
+#!/usr/bin/env bb
+;; -*- mode: clojure; -*-
+
+;; fix pyenv path in scripts under ~/.pyenv
+;; 1. search scripts which contains "pyenv/1.2.{\d}{2}/libexec", e.g.
+;;    "pyenv/1.2.20/libexec"
+;; 2. replace the content with correct pyenv version
+;;    "$(shell pyenv ---version)"
