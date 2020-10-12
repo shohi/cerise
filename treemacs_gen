@@ -1,0 +1,57 @@
+#!/usr/bin/env bb
+;; -*- mode: clojure; -*-
+
+;; follow the recommended style
+;; https://github.com/borkdude/babashka#style
+(require '[clojure.java.io :as io])
+
+(defn expand-home
+  "expand home path if s starts with '~', otherwise keep unchanged.
+  https://stackoverflow.com/questions/29585928/how-to-substitute-path-to-home-for"
+  [s]
+  (if (.startsWith s "~")
+    (clojure.string/replace-first s "~" (System/getProperty "user.home"))
+    s))
+
+(defn is-matched-dir?
+  [ptn file]
+  (let [p (re-pattern ptn)]
+    (and (.isDirectory file)
+         (re-find p (.getName file)))))
+
+(defn project-item
+  [file]
+  (let [abs-path (.getCanonicalPath file)
+        name (.getName file)]
+    (format "** %s\n - path :: %s" name abs-path)))
+
+(defn create-project-items
+  [dir ptn]
+  (let [files (.listFiles (io/file dir))]
+    (-> files
+      (#(filter (partial is-matched-dir? ptn) %))
+      (#(map project-item %))
+      (#(clojure.string/join "\n" %)))))
+
+(defn create-project-list
+  "create treemacs workspace project lists"
+  [ws dir ptn]
+  (let [header (format "* %s" ws)]
+    (do
+      (str header "\n" (create-project-items dir ptn))
+      )
+    ))
+
+(defn main
+  "main entry. input is a sequence which contains at least two items -
+  workspace and directory. If a third item is provided, it will be taken
+  as regular expression pattern to filter directory. Otherwise, the default
+  pattern (.*) will be used."
+  [input]
+  (let [[ws dir ptn] input]
+    (when (or (empty? ws) (empty? dir))
+      (println "Usage: <workspace> <dir> <pattern>")
+      (System/exit 1))
+    (println (create-project-list ws (expand-home dir) (or ptn ".*")))))
+
+(main *command-line-args*)
