@@ -1,5 +1,7 @@
 #!/usr/bin/env bb
 
+(require '[clojure.java.shell :as shell])
+
 (defn time-main
   [cmds]
   (time

@@ -1,0 +1,43 @@
+#!/usr/bin/env bb
+;; -*- mode: clojure; -*-
+
+;; refer
+;; https://stackoverflow.com/questions/39518124/check-if-directory-is-git-repository-without-having-to-cd-into-it/39518382
+;;
+;; git operation without cd
+;; - using `git -C`
+;; https://stackoverflow.com/questions/5083224/git-pull-while-not-in-a-git-directory
+
+(require '[clojure.java.shell :as shell]
+         '[clojure.string :as string])
+
+(defn gen-git-check-cmd
+  [dir]
+  ["git" "-C" dir "rev-parse" "--git-dir"])
+
+(comment
+  (string/join " " (gen-git-check-cmd "hello")))
+
+(defn git-repo-check
+  [dir]
+  (let [cmd (apply shell/sh (gen-git-check-cmd dir))
+        code (:exit cmd)]
+    (= code 0)))
+
+(defn is-git-repo
+  "check if given directory is a git repository"
+  [dir]
+  (let [gf (io/file dir ".git")]
+    (if (.isDirectory gf)
+      (git-repo-check (.getPath gf)))))
+
+(defn main
+  "main entry"
+  [input]
+  (let [[dir] input]
+    (when (empty? dir)
+      (println "Usage: <dir>")
+      (System/exit 1))
+    (println "git repo:" (if (is-git-repo dir) "true" "false"))))
+
+(main *command-line-args*)
