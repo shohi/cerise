@@ -4,6 +4,7 @@
 ;; daily routine
 ;; - brew upgrade
 
+;; Deprecated: use `brew pin/unpin` to ignore upgrade
 (def ignore-list ["baidunetdisk" "YouDao"])
 
 ;; TODO: check shell status

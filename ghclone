@@ -1,0 +1,52 @@
+#!/usr/bin/env bb
+;; -*- mode: clojure; -*-
+
+(require '[clojure.java.io :as io]
+         '[clojure.string :as str]
+         '[clojure.java.shell :as shell])
+
+;; clone github repos into current folder,
+;; and also create subdir for account.
+
+;; NOTE: bb does not support "git" protocol and also
+;; not allow empty protocol.
+
+(defn get-user-and-repo
+  "get user account and repo name from url path,
+  which starts with leading slash"
+  [url-path]
+  (let [[_ x y] (str/split url-path #"/")]
+    [x y]
+    ))
+
+(defn gh-clone
+  "clone git repo"
+  [repo-url]
+  (let [url-path (.getPath (io/as-url repo-url))
+        [user repo] (get-user-and-repo url-path)]
+
+    ;; TODO: check error
+    (shell/sh "mkdir" "-p" user)
+    (shell/sh "git" "clone" repo-url (str/join "/" [user repo]))
+    ))
+
+(comment
+  (def a (io/as-url "https://github.com/jwells131313/goethe"))
+  (def a-path (.getPath a))
+
+  (str/starts-with? "aaabbb" "aa")
+  (str/split "/a/b/c" #"/")
+  (str/join "/" ["a" "b"])
+  )
+
+(defn main
+  "main entry"
+  [input]
+  (let [[url] input]
+    ;; TODO: validate url
+    (when (empty? url)
+      (println "Usage: <repo-url>")
+      (System/exit 1))
+    (gh-clone url)))
+
+(main *command-line-args*)
