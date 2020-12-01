@@ -1,0 +1,4 @@
+#!/usr/bin/env bb
+;; -*- mode: clojure; -*-
+
+;; babashka port of [helmenv](https://github.com/little-angry-clouds/helmenv/)

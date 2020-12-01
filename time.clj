@@ -1,4 +1,5 @@
 #!/usr/bin/env bb
+;; -*- mode: clojure; -*-
 
 (require '[clojure.java.shell :as shell])
 
