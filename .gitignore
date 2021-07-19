@@ -16,3 +16,4 @@ pom.xml.asc
 # tmp
 data/
 playground
+nohup.out
